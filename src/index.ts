@@ -24,15 +24,18 @@ const handleMatchmaking = () => {
     const roomIdentifier = `room_${Math.random().toString(36).substring(7)}`;
 
     // Notify matched players about the room (using WebSockets)
-    io.to(player1.socketID).emit("match", {
+    const matchData1 = {
       roomIdentifier: roomIdentifier,
       opponent: player2,
-    });
+    };
 
-    io.to(player2.socketID).emit("match", {
-      roomID: roomIdentifier,
+    const matchData2 = {
+      roomIdentifier: roomIdentifier,
       opponent: player1,
-    });
+    };
+
+    io.to(player1.socketID).emit("match", matchData1);
+    io.to(player2.socketID).emit("match", matchData2);
 
     console.log(
       `Matched players: ${player1.socketID} and ${player2.socketID}\nRoom: ${roomIdentifier}`
