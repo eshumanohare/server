@@ -24,18 +24,18 @@ const handleMatchmaking = () => {
     const roomIdentifier = `room_${Math.random().toString(36).substring(7)}`;
 
     // Notify matched players about the room (using WebSockets)
-    io.to(player1).emit("match", {
+    io.to(player1.socketID).emit("match", {
       roomIdentifier: roomIdentifier,
       opponent: player2,
     });
 
-    io.to(player2).emit("match", {
-      roomIdentifier: roomIdentifier,
+    io.to(player2.socketID).emit("match", {
+      roomID: roomIdentifier,
       opponent: player1,
     });
 
     console.log(
-      `Matched players: ${player1} and ${player2}\nRoom: ${roomIdentifier}`
+      `Matched players: ${player1.socketID} and ${player2.socketID}\nRoom: ${roomIdentifier}`
     );
   }
 };
@@ -50,10 +50,10 @@ io.on("connection", (socket: Socket) => {
       `Socket ID: ${playerObject.socketID} Address: ${playerObject.address} NFTID: ${playerObject.nftID}`
     );
     waitingQueue.push(playerObject);
-  });
 
-  // Handle matchmaking whenever a player connects
-  handleMatchmaking();
+    // Handle matchmaking whenever a player connects
+    handleMatchmaking();
+  });
 
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.id}`);
