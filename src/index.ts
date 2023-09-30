@@ -45,7 +45,7 @@ io.on("connection", (socket: Socket) => {
 
   // Add the connected player to the waiting queue
 
-  io.on("add-queue", (playerObject: PlayerObject) => {
+  socket.on("add-queue", (playerObject: PlayerObject) => {
     console.log(
       `Socket ID: ${playerObject.socketID} Address: ${playerObject.address} NFTID: ${playerObject.nftID}`
     );
