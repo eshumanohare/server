@@ -62,6 +62,9 @@ io.on("connection", (socket: Socket) => {
 
   // Shares the attribute value with the socketID passed
   socket.on("share-attribute", ({ socketIDopponent, attribute }) => {
+    console.log(
+      `Socket ID of opponent ${socketIDopponent}\n Attribute value ${attribute}`
+    );
     io.to(socketIDopponent).emit(attribute);
   });
 
