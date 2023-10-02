@@ -61,7 +61,7 @@ io.on("connection", (socket: Socket) => {
   });
 
   // Shares the attribute value with the socketID passed
-  socket.on("traitPicked", ({ socketIDopponent, attribute }) => {
+  socket.on("share-attribute", ({ socketIDopponent, attribute }) => {
     io.to(socketIDopponent).emit(attribute);
   });
 
