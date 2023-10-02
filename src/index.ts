@@ -27,11 +27,13 @@ const handleMatchmaking = () => {
     const matchData1 = {
       roomIdentifier: roomIdentifier,
       opponent: player2,
+      turnAddress: player1,
     };
 
     const matchData2 = {
       roomIdentifier: roomIdentifier,
       opponent: player1,
+      turnAddress: player1,
     };
 
     io.to(player1.socketID).emit("match", matchData1);
@@ -56,6 +58,11 @@ io.on("connection", (socket: Socket) => {
 
     // Handle matchmaking whenever a player connects
     handleMatchmaking();
+  });
+
+  // Shares the attribute value with the socketID passed
+  socket.on("share-attribute", ({ socketIDopponent, attribute }) => {
+    io.to(socketIDopponent).emit(attribute);
   });
 
   socket.on("disconnect", () => {
